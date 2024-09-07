@@ -4,6 +4,8 @@ let port = process.env.port || 3000;    //sets the port on which the Express ser
 require('./mongoConnect');
 let router = require('./routers/router');
 let http = require('http').createServer(app);
+const socketIo = require('socket.io');
+const io = socketIo(http);
 
 
 app.use(express.static(__dirname + '/'))
@@ -16,7 +18,21 @@ app.get('/', function (req,res) {
     res.sendFile(__dirname + '/index.html');
 });
 
+io.on('connection', (socket) => {
+    console.log('User has connected');
+
+    socket.on('disconnect', () => {
+        console.log('User has disconnected');
+    });
+
+    socket.on('bidsuccess', () => {
+        console.log('Bid made succefully . This is a socket.io log');
+    });
+
+});
+
 
 http.listen(port, ()=>{
     console.log('express server started on port ' + port);
 });
+

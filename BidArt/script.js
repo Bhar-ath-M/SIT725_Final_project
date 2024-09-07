@@ -14,12 +14,11 @@ const addTables = (items) => {
 }
 */
 
-
 const addTables = (items) => {
     $("#emptybid").empty();
-    items.forEach(item => {
+    items.reverse().forEach(item => {
         let itemToAppend = 
-            '<p>'+item.name+' - '+item.bid+ '</p>'
+            '<h3><strong>'+item.name+'</strong> has bid AUD<strong> '+item.bid+'<strong></h3>'
         ;
         $("#emptybid").append(itemToAppend)
     });
@@ -35,6 +34,8 @@ const formSubmitted = () => {
     postBid(formData);
 }
 
+let socket = io();
+
 function postBid(bid) {
     $.ajax({
         url:'/api/bid',
@@ -46,6 +47,7 @@ function postBid(bid) {
             if (result.statusCode === 201) {
                 alert('Bid successful');
                 location.reload();
+                socket.emit('bidsuccess')             
             }
         },
         error: (xhr, status, error) => {
@@ -72,6 +74,8 @@ function getAllBids() {
     });
 }
 
+
+
 $(document).ready(function(){
     $('.materialboxed').materialbox();
     $('.modal').modal();
@@ -81,4 +85,5 @@ $(document).ready(function(){
     $('#formSubmit').click(()=>{
         formSubmitted();
     });
+
 });
