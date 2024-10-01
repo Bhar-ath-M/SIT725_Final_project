@@ -18,7 +18,7 @@ const addTables = (items) => {
     $("#emptybid").empty();
     items.reverse().forEach(item => {
         let itemToAppend = 
-            '<h3><strong>'+item.name+'</strong> has bid AUD<strong> '+item.bid+'<strong></h3>'
+            '<h5><strong>'+item.name+'</strong> has bid AUD<strong> '+item.bid+'</strong></h5>'
         ;
         $("#emptybid").append(itemToAppend)
     });
